@@ -2,41 +2,76 @@
 
 A complete Docker-based development environment for a self-designing database system with PostgreSQL 16, featuring automated index optimization through reinforcement learning.
 
-## System Architecture
+## 🚀 Quick Start
+
+### Prerequisites
+- Docker and Docker Compose
+- Python 3.11+
+- 8GB+ RAM recommended
+
+### Installation
+
+1. **Clone and setup:**
+```bash
+# Run the setup script (Windows)
+.\setup.ps1
+
+# Or manually:
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+2. **Start all services:**
+```bash
+docker-compose up -d
+```
+
+3. **Run health check:**
+```bash
+python health_check.py
+```
+
+4. **Access services:**
+   - **Grafana**: http://localhost:3000 (admin/admin123)
+   - **Jupyter**: http://localhost:8888 (token: designingdb)
+   - **PostgreSQL**: localhost:5432 (admin/admin123)
+   - **pgAdmin**: http://localhost:5050 (admin@designingdb.com/admin123)
+   - **Prometheus**: http://localhost:9090
+
+## 📊 System Architecture
+
+```
 ┌─────────────────────────────────────────────────────────────┐
-│ Application Layer │
+│                     Application Layer                        │
 ├─────────────────────────────────────────────────────────────┤
-│ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ │
-│ │ Jupyter │ │ Grafana │ │ pgAdmin │ │ Custom │ │
-│ │ Lab │ │ Dash- │ │ │ │ Apps │ │
-│ │ │ │ boards │ │ │ │ │ │
-│ └──────────┘ └──────────┘ └──────────┘ └──────────┘ │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐   │
+│  │ Jupyter  │  │ Grafana  │  │ pgAdmin  │  │  Custom  │   │
+│  │  Lab     │  │ Dash-    │  │          │  │  Apps    │   │
+│  │          │  │  boards  │  │          │  │          │   │
+│  └──────────┘  └──────────┘  └──────────┘  └──────────┘   │
 ├─────────────────────────────────────────────────────────────┤
-│ Monitoring & Analytics │
+│                    Monitoring & Analytics                   │
 ├─────────────────────────────────────────────────────────────┤
-│ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ │
-│ │Workload │ │Database │ │ Feature │ │Prometheus│ │
-│ │Monitor │ │Inspector │ │Extractor │ │ Exporter │ │
-│ └──────────┘ └──────────┘ └──────────┘ └──────────┘ │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐   │
+│  │Workload  │  │Database  │  │ Feature  │  │Prometheus│   │
+│  │Monitor   │  │Inspector │  │Extractor │  │ Exporter │   │
+│  └──────────┘  └──────────┘  └──────────┘  └──────────┘   │
 ├─────────────────────────────────────────────────────────────┤
-│ Reinforcement Learning │
+│                    Reinforcement Learning                   │
 ├─────────────────────────────────────────────────────────────┤
-│ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ │
-│ │ RL │ │ Safe │ │ Cost │ │ Shadow │ │
-│ │ Agent │ │ Action │ │ Model │ │ Testing │ │
-│ │ (SAC) │ │Executor │ │ │ │ │ │
-│ └──────────┘ └──────────┘ └──────────┘ └──────────┘ │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐   │
+│  │  RL      │  │  Safe    │  │  Cost    │  │  Shadow  │   │
+│  │ Agent    │  │  Action  │  │  Model   │  │  Testing │   │
+│  │  (SAC)   │  │Executor  │  │          │  │          │   │
+│  └──────────┘  └──────────┘  └──────────┘  └──────────┘   │
 ├─────────────────────────────────────────────────────────────┤
-│ Database Layer │
+│                    Database Layer                           │
 ├─────────────────────────────────────────────────────────────┤
-│ ┌──────────────────────────────────────────────────────┐ │
-│ │ PostgreSQL 16 with Extensions │ │
-│ │ • pg_stat_statements • pg_partman • auto_explain │ │
-│ └──────────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────┘
-
-text
-
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │              PostgreSQL 16 with Extensions           │   │
+│  │  • pg_stat_statements • pg_partman • auto_explain    │   │
+│  └──────────────────────────────────────────────────────┘   │
 ## Features
 
 ### 1. Foundational Infrastructure & Monitoring
