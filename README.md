@@ -95,18 +95,3 @@ python health_check.py
 - **Production Hardening** with gradual rollout
 - **Ablation Studies** for component analysis
 
-## Quick Start
-
-### Prerequisites
-- Docker and Docker Compose
-- Python 3.11+
-- 8GB+ RAM recommended
-
-### Installation
-
-1. **Clone and setup:**
-```bash
-git clone <repository-url>
-cd SelfDesigningDB
-chmod +x setup.sh
-./setup.sh
