@@ -32,12 +32,6 @@ docker-compose up -d
 python health_check.py
 ```
 
-4. **Access services:**
-   - **Grafana**: http://localhost:3000 (admin/admin123)
-   - **Jupyter**: http://localhost:8888 (token: designingdb)
-   - **PostgreSQL**: localhost:5432 (admin/admin123)
-   - **pgAdmin**: http://localhost:5050 (admin@designingdb.com/admin123)
-   - **Prometheus**: http://localhost:9090
 
 ## 📊 System Architecture
 
