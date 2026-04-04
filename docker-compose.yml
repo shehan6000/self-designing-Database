@@ -1,0 +1,132 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: self-designing-postgres
+    environment:
+      POSTGRES_DB: self_designing_db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_INITDB_ARGS: "--locale-provider=icu --icu-locale=en-US"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./docker/postgres/postgresql.conf:/etc/postgresql/postgresql.conf
+    command: >
+      postgres -c config_file=/etc/postgresql/postgresql.conf
+        -c shared_preload_libraries='pg_stat_statements,auto_explain,pg_partman_bgw'
+        -c auto_explain.log_min_duration=0
+        -c auto_explain.log_analyze=true
+        -c pg_stat_statements.track=all
+        -c pg_stat_statements.max=10000
+    networks:
+      - monitoring_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d self_designing_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: self-designing-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    networks:
+      - monitoring_network
+    depends_on:
+      postgres-exporter:
+        condition: service_healthy
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: self-designing-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/etc/grafana/dashboards
+    networks:
+      - monitoring_network
+    depends_on:
+      - prometheus
+
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter:latest
+    container_name: self-designing-postgres-exporter
+    ports:
+      - "9187:9187"
+    environment:
+      DATA_SOURCE_NAME: "postgresql://admin:admin123@postgres:5432/self_designing_db?sslmode=disable"
+      PG_EXPORTER_EXTEND_QUERY_PATH: /etc/postgres-exporter/queries.yaml
+    volumes:
+      - ./docker/postgres-exporter/queries.yaml:/etc/postgres-exporter/queries.yaml
+    networks:
+      - monitoring_network
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O-", "http://localhost:9187/metrics"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  jupyter:
+    image: jupyter/datascience-notebook:python-3.11
+    container_name: self-designing-jupyter
+    ports:
+      - "8890:8888"
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - JUPYTER_TOKEN=designingdb
+    volumes:
+      - ./notebooks:/home/jovyan/work
+      - ./src:/home/jovyan/src
+      - ./requirements.txt:/home/jovyan/requirements.txt
+    networks:
+      - monitoring_network
+    command: >
+      start-notebook.sh
+      --NotebookApp.token='designingdb'
+      --NotebookApp.password=''
+      --NotebookApp.notebook_dir=/home/jovyan/work
+      --NotebookApp.allow_origin='*'
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: self-designing-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@designingdb.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - monitoring_network
+
+volumes:
+  postgres_data:
+  prometheus_data:
+  grafana_data:
+  pgadmin_data:
+
+networks:
+  monitoring_network:
+    driver: bridge
