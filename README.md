@@ -218,40 +218,6 @@ Prevent catastrophic configurations in production:
 - Pandas / Polars (data analysis)
 - Optuna (hyperparameter tuning)
 
-### 4.2 Development Phases
-
-**Phase 1: Foundation (Months 1-4)**
-- Implement workload monitoring and feature extraction
-- Build Gymnasium environment wrapping PostgreSQL
-- Create baseline manual tuning benchmarks
-- Develop offline RL training from historical logs
-
-**Phase 2: Core RL Integration (Months 5-10)**
-- Implement SAC agent with index-only action space
-- Integrate cost models for action filtering
-- Deploy shadow testing infrastructure
-- Validate on synthetic workloads
-
-**Phase 3: Expanded Actions (Months 11-16)**
-- Add partitioning optimization
-- Implement compression strategy selection
-- Develop storage layout migration
-- Test on multi-tenant scenarios
-
-**Phase 4: Advanced Optimization (Months 17-24)**
-- Model-based RL for sample efficiency
-- Meta-learning for rapid workload adaptation
-- Multi-agent systems for distributed databases
-- Federated learning across database instances
-
-**Phase 5: Production Hardening (Months 25-30)**
-- Stability analysis and formal verification
-- Comprehensive safety mechanisms
-- Real-world case studies
-- Open-source release and documentation
-
----
-
 ## 5. Experimental Design
 
 ### 5.1 Benchmarks
@@ -392,8 +358,4 @@ Prevent catastrophic configurations in production:
 - **Baselines:** Collaborate with industry for realistic manual tuning benchmarks
 - **Scope Creep:** Phased approach with well-defined milestones
 
----
 
-**Document Version:** 2.0  
-**Last Updated:** January 2026  
-**Contact:** [Your PhD Program / University]
