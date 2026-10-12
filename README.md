@@ -1,5 +1,5 @@
 # Self-Designing Database System
-![Uploading performance_dashboard.png…]()
+<img width="2369" height="1839" alt="performance_dashboard" src="https://github.com/user-attachments/assets/55baa25b-47a1-414d-95bb-272c1e2cc6de" />
 
 ## Executive Summary
 
