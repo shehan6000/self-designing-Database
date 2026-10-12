@@ -1,4 +1,4 @@
-# Self-Designing Database System: PhD-Level Research Project
+# Self-Designing Database System
 
 ## Executive Summary
 
@@ -391,17 +391,6 @@ Prevent catastrophic configurations in production:
 - **Reproducibility:** Comprehensive experiment logging, containerized environments, public datasets
 - **Baselines:** Collaborate with industry for realistic manual tuning benchmarks
 - **Scope Creep:** Phased approach with well-defined milestones
-
----
-
-## 9. Expected Outcomes
-
-### 9.1 Quantitative Goals
-
-- **30-50%** improvement in p95 query latency over static configurations on evolving workloads
-- **<5%** overhead from reconfiguration costs
-- **<1 hour** adaptation time to major workload shifts
-- **20-40%** storage reduction through intelligent compression
 
 ---
 
