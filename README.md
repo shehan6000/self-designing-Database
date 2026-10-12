@@ -1,4 +1,5 @@
 # Self-Designing Database System
+![Uploading performance_dashboard.png…]()
 
 ## Executive Summary
 
